@@ -1,0 +1,2 @@
+Hybrid mobile app for the fictional conFusion resturant.
+Made with the [Ionic framework](http://ionicframework.com/) for the [Multiplatform Mobile App Development with Web Technologies](https://www.coursera.org/learn/hybrid-mobile-development/) on Coursera.
