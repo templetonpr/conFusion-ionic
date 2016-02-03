@@ -168,7 +168,7 @@ angular.module('conFusion.controllers', [])
   };
 }])
 
-.controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', 'baseURL', function ($scope, $stateParams, menuFactory, baseURL) {
+.controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', 'baseURL', '$ionicPopover', 'favoriteFactory', '$ionicLoading', '$ionicModal', function ($scope, $stateParams, menuFactory, baseURL, $ionicPopover, favoriteFactory, $ionicLoading, $ionicModal) {
 
   $scope.baseURL = baseURL;
   $scope.dish = {};
@@ -188,17 +188,58 @@ angular.module('conFusion.controllers', [])
       }
     );
 
+  // comment form modal
+  $ionicModal.fromTemplateUrl('templates/comment.html', {
+    scope: $scope
+  }).then(function (modal) {
+    $scope.commentForm = modal;
+  });
 
-}])
-
-.controller('DishCommentController', ['$scope', 'menuFactory', function ($scope, menuFactory) {
-
-  $scope.mycomment = {
-    rating: 5,
-    comment: "",
-    author: "",
-    date: ""
+  // close comment modal
+  $scope.closeComment = function () {
+    $scope.commentForm.hide();
   };
+
+  // open comment modal
+  $scope.openComment = function () {
+    $scope.commentForm.show();
+  };
+
+  $ionicPopover.fromTemplateUrl('templates/dish-detail-popover.html', {
+    scope: $scope
+  }).then(function (popover) {
+    $scope.popover = popover;
+  });
+
+  $scope.openPopover = function ($event) {
+    $scope.popover.show($event);
+  };
+
+  $scope.closePopover = function () {
+    $scope.popover.hide();
+  };
+
+  $scope.addFavorite = function () {
+    favoriteFactory.addToFavorites($scope.dish.id);
+    $ionicLoading.show({
+      template: 'Added to favorites!',
+      noBackdrop: true,
+      duration: 1000
+    });
+    $scope.closePopover();
+  };
+
+  $scope.addComment = function () {
+    $scope.openComment();
+    $scope.closePopover();
+  };
+
+  //Cleanup the popover when we're done with it!
+  $scope.$on('$destroy', function () {
+    $scope.popover.remove();
+  });
+
+  $scope.mycomment = {};
 
   $scope.submitComment = function () {
 
@@ -210,14 +251,9 @@ angular.module('conFusion.controllers', [])
       id: $scope.dish.id
     }, $scope.dish);
 
-    $scope.commentForm.$setPristine();
+    $scope.mycomment = {};
 
-    $scope.mycomment = {
-      rating: 5,
-      comment: "",
-      author: "",
-      date: ""
-    };
+    $scope.closeComment();
   };
 }])
 
