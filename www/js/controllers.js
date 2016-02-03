@@ -11,6 +11,7 @@ angular.module('conFusion.controllers', [])
 
   // Form data for the login modal
   $scope.loginData = {};
+  $scope.reservation = {};
 
   // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/login.html', {
@@ -37,6 +38,34 @@ angular.module('conFusion.controllers', [])
     // code if using a login system
     $timeout(function () {
       $scope.closeLogin();
+    }, 1000);
+  };
+
+  // reserve form modal
+  $ionicModal.fromTemplateUrl('templates/reserve.html', {
+    scope: $scope
+  }).then(function (modal) {
+    $scope.reserveform = modal;
+  });
+
+  // close reserve modal
+  $scope.closeReserve = function() {
+    $scope.reserveform.hide();
+  };
+
+  // open reserve modal
+  $scope.reserve = function() {
+    $scope.reserveform.show();
+  };
+
+  // preserve login action when the user submits the login form
+  $scope.doReserve = function(){
+    console.log('Doing reservation', $scope.reservation);
+
+    // simulate login delay.
+    // Remove this and replace with your login code if using a login system
+    $timeout(function(){
+      $scope.closeReserve();
     }, 1000);
   };
 })
