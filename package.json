@@ -20,7 +20,13 @@
     "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
-    "ionic-plugin-keyboard"
+    "ionic-plugin-keyboard",
+    "de.appplant.cordova.plugin.local-notification",
+    {
+      "locator": "https://github.com/EddyVerbruggen/Toast-PhoneGap-Plugin.git",
+      "id": "cordova-plugin-x-toast"
+    },
+    "cordova-plugin-camera"
   ],
   "cordovaPlatforms": []
 }
